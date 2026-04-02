@@ -26,6 +26,6 @@ export const testGeneratorAgent = new Agent({
     Mock external dependencies with vi.mock().
     Be thorough — aim for high coverage.
   `,
-  model: "cloudflare-workers-ai/@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+  model: "cloudflare-workers-ai/@cf/qwen/qwen3-30b-a3b-fp8",
   tools: { fetchAnalysisTool, storeTestsTool, readFileTool, writeFileTool },
 });
