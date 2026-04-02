@@ -27,11 +27,15 @@ export const runTestsTool = createTool({
     output: z.string(),
     failures: z.array(z.object({ testName: z.string(), error: z.string() })),
   }),
-  execute: async ({ context }) => {
+  execute: async ({ testFilePath }) => {
+    const workspace = process.env.LEMON_WORKSPACE;
+    if (!workspace) {
+      return { passed: false, output: "LEMON_WORKSPACE not set", failures: [] };
+    }
     try {
       const { stdout, stderr } = await execAsync(
-        `npx vitest run ${context.testFilePath} --reporter=verbose`,
-        { cwd: process.cwd() }
+        `npx vitest run ${testFilePath} --reporter=verbose`,
+        { cwd: workspace }
       );
       const output = stdout + stderr;
       const passed = !output.includes("FAIL") && !output.includes("failed");

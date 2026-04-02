@@ -16,12 +16,12 @@ export const fetchAnalysisTool = createTool({
       issues: z.array(z.string()),
     })),
   }),
-  execute: async ({ context }) => {
+  execute: async ({ filePath }) => {
     const redis = getRedisClient();
 
     let keys: string[];
-    if (context.filePath) {
-      keys = await redis.keys(`code_analysis:*${context.filePath}*`);
+    if (filePath) {
+      keys = await redis.keys(`code_analysis:*${filePath}*`);
     } else {
       keys = await redis.keys("code_analysis:*");
     }

@@ -1,34 +1,24 @@
 {
   "name": "lemonx",
-  "version": "0.1.0",
-  "description": "AI-powered test generation, execution, and self-healing fixes via CircleCI",
+  "version": "0.2.0",
+  "description": "Generate CircleCI config for AI-powered test generation, execution, and self-healing fixes",
   "type": "module",
   "bin": {
     "lemonx": "./dist/cli/index.js"
   },
   "files": [
-    "dist",
-    "templates"
+    "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "esbuild src/cli/index.ts --bundle --platform=node --outdir=dist/cli --format=esm --external:dotenv",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@mastra/core": "latest",
-    "@mastra/libsql": "latest",
-    "@mastra/memory": "^1.12.0",
-    "@mastra/rag": "latest",
-    "dotenv": "latest",
-    "express": "^4.21.0",
-    "ioredis": "^5.10.1",
-    "vitest": "latest",
-    "zod": "latest"
+    "dotenv": "latest"
   },
   "devDependencies": {
-    "@types/express": "^4.17.21",
     "@types/node": "^25.5.0",
-    "tsx": "latest",
+    "esbuild": "latest",
     "typescript": "latest"
   }
 }

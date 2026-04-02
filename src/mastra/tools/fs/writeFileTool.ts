@@ -15,22 +15,22 @@ export const writeFileTool = createTool({
     iteration: z.coerce.number().optional(),
   }),
   outputSchema: z.object({ success: z.boolean() }),
-  execute: async ({ context }) => {
-    const base = process.env.TARGET_REPO ?? process.cwd();
-    const fullPath = join(base, context.path);
+  execute: async ({ path, content, patchDescription, iteration }) => {
+    const base = process.env.LEMON_WORKSPACE ?? process.env.TARGET_REPO ?? process.cwd();
+    const fullPath = join(base, path);
     await mkdir(dirname(fullPath), { recursive: true });
-    await writeFile(fullPath, context.content, "utf-8");
+    await writeFile(fullPath, content, "utf-8");
 
     // Log patch to Redis if this is a code fix
-    if (context.patchDescription) {
+    if (patchDescription) {
       const redis = getRedisClient();
       const id = randomUUID();
       await redis.set(`code_patches:${id}`, JSON.stringify({
         id,
-        filePath: context.path,
-        patchDescription: context.patchDescription,
+        filePath: path,
+        patchDescription,
         appliedAt: new Date().toISOString(),
-        iteration: context.iteration ?? 0,
+        iteration: iteration ?? 0,
       }));
     }
     return { success: true };
