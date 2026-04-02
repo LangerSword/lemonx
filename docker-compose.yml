@@ -21,13 +21,12 @@ services:
       - CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY}
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - TARGET_REPO=${TARGET_REPO}
       - WEBHOOK_PORT=3456
       - WEBHOOK_SECRET=${WEBHOOK_SECRET}
     ports:
       - "3456:3456"
     volumes:
-      - ${TARGET_REPO:-./target-repo}:${TARGET_REPO:-/app/target-repo}
+      - ./target-repo:/app/target-repo
     command: ["npx", "tsx", "src/index.ts"]
 
   webhook:
@@ -40,13 +39,10 @@ services:
       - CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY}
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - TARGET_REPO=${TARGET_REPO}
       - WEBHOOK_PORT=3456
       - WEBHOOK_SECRET=${WEBHOOK_SECRET}
     ports:
-      - "3457:3456"
-    volumes:
-      - ${TARGET_REPO:-./target-repo}:${TARGET_REPO:-/app/target-repo}
+      - "3456:3456"
     command: ["npx", "tsx", "src/webhook-server.ts"]
 
 volumes:
