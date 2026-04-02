@@ -21,6 +21,6 @@ export const executorAgent = new Agent({
     Be precise when capturing failure details — the editor agent depends on them.
     Always store results even if all tests pass.
   `,
-  model: "cloudflare-workers-ai/@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+  model: "cloudflare-workers-ai/@cf/qwen/qwen3-30b-a3b-fp8",
   tools: { runTestsTool, storeResultsTool, fetchAnalysisTool },
 });

@@ -25,6 +25,6 @@ export const editorAgent = new Agent({
     Be surgical — make the smallest change that fixes the failure.
     If a fix might break other things, add a comment explaining the tradeoff.
   `,
-  model: "cloudflare-workers-ai/@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+  model: "cloudflare-workers-ai/@cf/qwen/qwen3-30b-a3b-fp8",
   tools: { fetchResultsTool, fetchAnalysisTool, readFileTool, writeFileTool, listFilesTool },
 });

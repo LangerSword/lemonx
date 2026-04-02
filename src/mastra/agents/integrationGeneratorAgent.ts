@@ -44,6 +44,6 @@ export const integrationGeneratorAgent = new Agent({
     - Incorrect transaction handling
     - Missing or incorrect middleware behavior
   `,
-  model: "cloudflare-workers-ai/@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+  model: "cloudflare-workers-ai/@cf/qwen/qwen3-30b-a3b-fp8",
   tools: { fetchAnalysisTool, storeTestsTool, readFileTool, writeFileTool },
 });
