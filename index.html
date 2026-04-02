@@ -289,12 +289,7 @@ footer::before{content:'';position:absolute;inset:0;background-image:linear-grad
     <a href="#" class="nav-logo">lemon.test</a>
     <div class="nav-links">
       <a href="#">Docs</a>
-      <a href="#">Pricing</a>
       <a href="#">GitHub</a>
-      <a href="#">Sign In</a>
-      <button class="nav-cta">Get Early Access</button>
-    </div>
-  <button class="nav-cta nav-mobile-cta">Early Access</button>
   </div>
 </nav>
 
@@ -308,17 +303,11 @@ footer::before{content:'';position:absolute;inset:0;background-image:linear-grad
       <span class="line1">Your codebase.</span>
       <span class="line2">Zero blind spots.</span>
     </h1>
-    <p class="subtitle">lemon.test deploys autonomous AI agents that hunt, execute, and report every test type — so your team ships faster, with confidence.</p>
-    <div class="ctas">
-      <div class="npm-cmd" id="npm-cmd" title="Click to copy">
-        <span class="npm-prompt">$</span>
-        <span class="npm-text">npm i lemontest</span>
-        <span class="npm-copy" id="npm-copy-icon">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        </span>
+    <p class="subtitle">lemon.test deploys autonomous AI agents that generate, execute, and fix tests automatically — so your team ships faster, with confidence.</p>
+      <div class="ctas">
+        <a href="https://github.com/berzi/lemon" class="btn-primary" style="text-decoration:none">View on GitHub →</a>
+        <a href="/docs/guide/getting-started" class="btn-ghost" style="text-decoration:none">Read the Docs</a>
       </div>
-      <button class="btn-ghost">Watch Demo →</button>
-    </div>
     <div class="test-types">
       Unit<span>·</span>Integration<span>·</span>E2E<span>·</span>Security<span>·</span>Performance<span>·</span>Regression
     </div>
@@ -443,23 +432,23 @@ footer::before{content:'';position:absolute;inset:0;background-image:linear-grad
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section class="how-section" id="how">
+<!-- SETUP INSTRUCTIONS -->
+<section class="how-section" id="setup">
   <div class="container">
     <div class="how-inner">
-      <div class="section-label">// workflow</div>
-      <h2 class="section-headline" style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(1.8rem,3.5vw,2.8rem)">From repo to <span class="lemon">confidence</span> in minutes.</h2>
+      <div class="section-label">// setup</div>
+      <h2 class="section-headline" style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(1.8rem,3.5vw,2.8rem)">Up and running in <span class="lemon">2 minutes.</span></h2>
       <div class="steps-row">
         <div class="step" id="step1">
           <div class="step-num">Step 01</div>
           <div class="step-icon">
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-              <path d="M16 4L28 10V22L16 28L4 22V10L16 4Z" stroke="#D4FF00" stroke-width="1.5" fill="none"/>
-              <path d="M16 4L16 28M4 10L28 22M28 10L4 22" stroke="#D4FF00" stroke-width="0.8" opacity="0.4"/>
+              <rect x="6" y="6" width="20" height="20" rx="3" stroke="#D4FF00" stroke-width="1.5" fill="none"/>
+              <path d="M12 16L15 19L20 13" stroke="#D4FF00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
-          <div class="step-title">CONNECT</div>
-          <div class="step-desc">Link your repo in seconds. GitHub, GitLab, or Bitbucket — lemon.test reads your structure and gets to work.</div>
+          <div class="step-title">ADD SECRETS</div>
+          <div class="step-desc">Go to your repo Settings → Secrets and variables → Actions. Add <code>CLOUDFLARE_ACCOUNT_ID</code> and <code>CLOUDFLARE_API_KEY</code>.</div>
         </div>
         <div class="step-connector">
           <svg viewBox="0 0 120 20" fill="none" class="connector-svg">
@@ -470,19 +459,12 @@ footer::before{content:'';position:absolute;inset:0;background-image:linear-grad
           <div class="step-num">Step 02</div>
           <div class="step-icon">
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-              <circle cx="16" cy="16" r="4" fill="#1A1A1A"/>
-              <circle cx="6" cy="10" r="2.5" stroke="#1A1A1A" stroke-width="1.2" fill="none"/>
-              <circle cx="26" cy="10" r="2.5" stroke="#1A1A1A" stroke-width="1.2" fill="none"/>
-              <circle cx="6" cy="22" r="2.5" stroke="#1A1A1A" stroke-width="1.2" fill="none"/>
-              <circle cx="26" cy="22" r="2.5" stroke="#1A1A1A" stroke-width="1.2" fill="none"/>
-              <line x1="12" y1="16" x2="8.5" y2="11.5" stroke="#1A1A1A" stroke-width="0.8" opacity="0.5"/>
-              <line x1="20" y1="16" x2="23.5" y2="11.5" stroke="#1A1A1A" stroke-width="0.8" opacity="0.5"/>
-              <line x1="12" y1="16" x2="8.5" y2="20.5" stroke="#1A1A1A" stroke-width="0.8" opacity="0.5"/>
-              <line x1="20" y1="16" x2="23.5" y2="20.5" stroke="#1A1A1A" stroke-width="0.8" opacity="0.5"/>
+              <path d="M16 4L28 10V22L16 28L4 22V10L16 4Z" stroke="#1A1A1A" stroke-width="1.5" fill="none"/>
+              <path d="M16 4L16 28M4 10L28 22M28 10L4 22" stroke="#1A1A1A" stroke-width="0.8" opacity="0.4"/>
             </svg>
           </div>
-          <div class="step-title">ORCHESTRATE</div>
-          <div class="step-desc">lemon.test maps your codebase topology and deploys targeted AI agents to every surface that needs coverage.</div>
+          <div class="step-title">PUSH CODE</div>
+          <div class="step-desc">Push to any branch. The GitHub Actions workflow triggers automatically — no config, no manual setup.</div>
         </div>
         <div class="step-connector">
           <svg viewBox="0 0 120 20" fill="none" class="connector-svg">
@@ -498,7 +480,7 @@ footer::before{content:'';position:absolute;inset:0;background-image:linear-grad
             </svg>
           </div>
           <div class="step-title">SHIP</div>
-          <div class="step-desc">Receive a full intelligence report. Every failure explained, every fix suggested. Merge with total confidence.</div>
+          <div class="step-desc">AI agents generate, run, and fix tests automatically. The job passes when everything works. Merge with confidence.</div>
         </div>
       </div>
     </div>
@@ -519,42 +501,35 @@ footer::before{content:'';position:absolute;inset:0;background-image:linear-grad
               <span class="agent-name">🍋 Unit Agent</span>
               <span class="agent-status"><span class="status-dot"></span>ACTIVE</span>
             </div>
-            <p class="agent-desc">Isolates and tests every function boundary</p>
+            <p class="agent-desc">Generates vitest unit tests for every function</p>
           </div>
           <div class="agent-card">
             <div class="agent-header">
               <span class="agent-name">🍋 Integration Agent</span>
               <span class="agent-status"><span class="status-dot"></span>ACTIVE</span>
             </div>
-            <p class="agent-desc">Validates service contracts end-to-end</p>
+            <p class="agent-desc">Validates service contracts and data flows</p>
           </div>
           <div class="agent-card">
             <div class="agent-header">
               <span class="agent-name">🍋 E2E Agent</span>
               <span class="agent-status"><span class="status-dot"></span>ACTIVE</span>
             </div>
-            <p class="agent-desc">Simulates real user journeys at scale</p>
+            <p class="agent-desc">Simulates real user journeys end-to-end</p>
           </div>
           <div class="agent-card">
             <div class="agent-header">
-              <span class="agent-name">🍋 Security Agent</span>
+              <span class="agent-name">🍋 Executor Agent</span>
               <span class="agent-status"><span class="status-dot"></span>ACTIVE</span>
             </div>
-            <p class="agent-desc">OWASP scanning on every single push</p>
+            <p class="agent-desc">Runs tests and captures pass/fail results</p>
           </div>
           <div class="agent-card">
             <div class="agent-header">
-              <span class="agent-name">🍋 Performance Agent</span>
+              <span class="agent-name">🍋 Editor Agent</span>
               <span class="agent-status"><span class="status-dot"></span>ACTIVE</span>
             </div>
-            <p class="agent-desc">Guards baselines, catches regressions early</p>
-          </div>
-          <div class="agent-card">
-            <div class="agent-header">
-              <span class="agent-name">🍋 Regression Agent</span>
-              <span class="agent-status"><span class="status-dot"></span>ACTIVE</span>
-            </div>
-            <p class="agent-desc">Ensures nothing breaks between releases</p>
+            <p class="agent-desc">Analyzes failures and applies source code fixes</p>
           </div>
         </div>
       </div>
@@ -567,13 +542,7 @@ footer::before{content:'';position:absolute;inset:0;background-image:linear-grad
               <div class="diag-logo">
                 <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
               </div>
-              <span class="diag-name">GitHub</span>
-            </div>
-            <div class="diag-node diag-integration" id="diag-circleci">
-              <div class="diag-logo">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 4.838a7.162 7.162 0 1 1 0 14.324A7.162 7.162 0 0 1 12 4.838zm0 2.406a4.756 4.756 0 1 0 0 9.512 4.756 4.756 0 0 0 0-9.512zm-1.99 4.756a1.99 1.99 0 1 1 3.98 0 1.99 1.99 0 0 1-3.98 0z"/></svg>
-              </div>
-              <span class="diag-name">CircleCI</span>
+              <span class="diag-name">GitHub Actions</span>
             </div>
           </div>
 
@@ -605,17 +574,13 @@ footer::before{content:'';position:absolute;inset:0;background-image:linear-grad
               <div class="diag-logo diag-agent-icon">🌐</div>
               <span class="diag-name">E2E</span>
             </div>
-            <div class="diag-node diag-agent" id="diag-security">
-              <div class="diag-logo diag-agent-icon">🛡️</div>
-              <span class="diag-name">Security</span>
+            <div class="diag-node diag-agent" id="diag-executor">
+              <div class="diag-logo diag-agent-icon">▶️</div>
+              <span class="diag-name">Executor</span>
             </div>
-            <div class="diag-node diag-agent" id="diag-perf">
-              <div class="diag-logo diag-agent-icon">⚡</div>
-              <span class="diag-name">Perf</span>
-            </div>
-            <div class="diag-node diag-agent" id="diag-regression">
-              <div class="diag-logo diag-agent-icon">↩️</div>
-              <span class="diag-name">Regression</span>
+            <div class="diag-node diag-agent" id="diag-editor">
+              <div class="diag-logo diag-agent-icon">✏️</div>
+              <span class="diag-name">Editor</span>
             </div>
           </div>
 
@@ -641,48 +606,6 @@ footer::before{content:'';position:absolute;inset:0;background-image:linear-grad
       </div>
       <div class="terminal-body" id="terminal-body">
         <span class="t-cursor" id="t-cursor"></span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section class="pricing-section" id="pricing">
-  <div class="container">
-    <div class="section-label" style="text-align:center">// plans</div>
-    <h2 class="section-headline pricing-headline" style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(1.8rem,3.5vw,2.8rem)">Simple, <span class="lemon">honest</span> pricing.</h2>
-    <p class="pricing-sub">Start free. Scale as your team grows. No hidden limits.</p>
-    <div class="pricing-grid">
-      <div class="price-card" style="grid-column:1/-1;border-color:rgba(26,26,26,0.35);background:#fff;box-shadow:0 8px 40px rgba(26,26,26,0.08);position:relative;overflow:hidden">
-        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:#1A1A1A"></div>
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:32px">
-          <div style="flex:1;min-width:260px">
-            <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
-              <div class="plan-name" style="margin-bottom:0">Current Release</div>
-              <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;font-weight:500;color:#F5F2EC;background:#1A1A1A;padding:4px 12px;border-radius:2px;letter-spacing:0.1em;text-transform:uppercase">OPEN SOURCE</span>
-            </div>
-            <div class="plan-price" style="font-size:clamp(2.8rem,5vw,4.2rem)"><sup></sup>Free<span class="period"> — completely</span></div>
-            <p class="plan-desc" style="max-width:480px">lemon.test is fully open source during its initial release. Every feature, every agent type, every run — no limits, no credit card, no catch. Star us on GitHub and help shape what we build next.</p>
-          </div>
-          <div style="flex:1;min-width:260px">
-            <ul class="plan-features" style="margin-bottom:28px">
-              <li><span class="check">✓</span> Unlimited repositories</li>
-              <li><span class="check">✓</span> All 6 agent types included</li>
-              <li><span class="check">✓</span> Unlimited test runs</li>
-              <li><span class="check">✓</span> Full CI/CD integration</li>
-              <li><span class="check">✓</span> Security + Performance agents</li>
-              <li><span class="check">✓</span> Self-hostable — MIT licensed</li>
-              <li><span class="check">✓</span> Community support on GitHub</li>
-            </ul>
-            <div style="display:flex;gap:12px;flex-wrap:wrap">
-              <button class="plan-btn primary" style="flex:1;min-width:160px">Star on GitHub ★</button>
-              <button class="plan-btn outline" style="flex:1;min-width:160px">Read the Docs →</button>
-            </div>
-          </div>
-        </div>
-        <div style="margin-top:32px;padding-top:24px;border-top:1px solid rgba(26,26,26,0.07);display:flex;align-items:center;gap:12px">
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:0.78rem;color:#1A1A1A;opacity:0.45;letter-spacing:0.04em">Paid plans (Pro · Enterprise) will launch once we exit open beta. Early users lock in founding pricing.</span>
-        </div>
       </div>
     </div>
   </div>
@@ -747,21 +670,10 @@ function animateTrail() {
 }
 animateTrail();
 
-document.querySelectorAll('button, a, .feature-card, .agent-card, .price-card, .step, .npm-cmd').forEach(el => {
+document.querySelectorAll('button, a, .feature-card, .agent-card, .step').forEach(el => {
   el.addEventListener('mouseenter', () => { cursor.classList.add('hovered'); trail.classList.add('hovered'); });
   el.addEventListener('mouseleave', () => { cursor.classList.remove('hovered'); trail.classList.remove('hovered'); });
 });
-
-// ── NPM COPY ──
-const npmCmd = document.getElementById('npm-cmd');
-if (npmCmd) {
-  npmCmd.addEventListener('click', () => {
-    navigator.clipboard.writeText('npm i lemontest').then(() => {
-      npmCmd.classList.add('copied');
-      setTimeout(() => npmCmd.classList.remove('copied'), 2000);
-    });
-  });
-}
 
 
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
@@ -962,13 +874,11 @@ gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
     // GitHub → Mastra
     const gh = center('diag-github');
-    const ci = center('diag-circleci');
     const ms = center('diag-mastra');
     if (gh && ms) makePath(gh.x, gh.bot, ms.x, ms.top - 4, 'diag-wire-solid', '0s');
-    if (ci && ms) makePath(ci.x, ci.bot, ms.x, ms.top - 4, 'diag-wire-solid', '0s');
 
     // Mastra → each agent
-    const agentIds = ['diag-unit','diag-integration-agent','diag-e2e','diag-security','diag-perf','diag-regression'];
+    const agentIds = ['diag-unit','diag-integration-agent','diag-e2e','diag-executor','diag-editor'];
     agentIds.forEach((id, i) => {
       const ag = center(id);
       if (ag && ms) {
@@ -984,7 +894,6 @@ gsap.registerPlugin(ScrollTrigger, TextPlugin);
       svg.appendChild(c);
     }
     if (gh) dot(gh.x, gh.bot, '#1A1A1A');
-    if (ci) dot(ci.x, ci.bot, '#1A1A1A');
     agentIds.forEach(id => {
       const ag = center(id);
       if (ag) dot(ag.x, ag.top, '#C8A800');
@@ -1154,12 +1063,6 @@ ScrollTrigger.create({
   start: 'top 70%',
   once: true,
   onEnter: () => { if (!terminalActive) { terminalActive = true; setTimeout(typeTerminal, 600); } }
-});
-
-// ── PRICING SCROLL ──
-gsap.from('.price-card', {
-  opacity: 0, y: 40, stagger: 0.15, duration: 0.8, ease: 'power3.out',
-  scrollTrigger: { trigger: '.pricing-section', start: 'top 70%' }
 });
 
 // ── SECTION LABEL REVEAL ──
