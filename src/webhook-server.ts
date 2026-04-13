@@ -18,6 +18,16 @@ const MAX_ITERATIONS = 5;
 const WORK_DIR = join(tmpdir(), "lemonx-workspaces");
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? "";
 
+// Configure git safe.directory to avoid "dubious ownership" errors in Docker/CI
+const gitSafeDirs = ["/workspace", "/tmp", WORK_DIR];
+for (const dir of gitSafeDirs) {
+  try {
+    await execAsync(`git config --global --add safe.directory "${dir}"`);
+  } catch {
+    // Ignore errors if the path doesn't exist
+  }
+}
+
 // ── Webhook signature verification ──────────────────────────────
 async function verifySignature(req: Request): Promise<boolean> {
   if (!WEBHOOK_SECRET) return true;

@@ -8,6 +8,7 @@ import { promisify } from "util";
 const execAsync = promisify(exec);
 
 const TARGET_REPO = process.env.TARGET_REPO ?? process.cwd();
+const LEMON_WORKSPACE = process.env.LEMON_WORKSPACE ?? "/workspace";
 const MAX_ITERATIONS = 5;
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? "";
 const GITHUB_REPOSITORY = process.env.GITHUB_REPOSITORY ?? "";
@@ -81,6 +82,16 @@ const integrationGenerator = mastra.getAgent("integrationGeneratorAgent");
 const e2eGenerator = mastra.getAgent("e2eGeneratorAgent");
 const executor = mastra.getAgent("executorAgent");
 const editor = mastra.getAgent("editorAgent");
+
+// Configure git safe.directory to avoid "dubious ownership" errors in Docker/CI
+const workspacePaths = ["/workspace", TARGET_REPO, LEMON_WORKSPACE];
+for (const path of workspacePaths) {
+  try {
+    await execAsync(`git config --global --add safe.directory "${path}"`);
+  } catch {
+    // Ignore errors if the path doesn't exist
+  }
+}
 
 // Initialize git for tracking changes
 try {
