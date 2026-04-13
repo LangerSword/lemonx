@@ -13,7 +13,7 @@ Reference for all configuration options in lemon.test.
 | `REDIS_HOST` | Redis server hostname | `redis` |
 | `REDIS_PORT` | Redis server port | `6379` |
 
-### Optional
+### Optional (for PR creation)
 
 | Variable | Default | Description |
 |---|---|---|
@@ -21,9 +21,17 @@ Reference for all configuration options in lemon.test.
 | `LEMON_WORKSPACE` | — | Working directory (set automatically by webhook mode) |
 | `WEBHOOK_PORT` | `3456` | Port for the webhook server |
 | `WEBHOOK_SECRET` | — | HMAC-SHA256 secret for webhook verification |
-| `GITHUB_TOKEN` | — | GitHub personal access token for automatic PR creation |
 | `CIRCLECI_RUNNER_NAME` | `lemon-runner` | Name for the CircleCI machine runner |
 | `CIRCLECI_RUNNER_API_AUTH_TOKEN` | — | Authentication token for the CircleCI runner |
+
+### Required for PR Creation
+
+| Variable | Description | Example |
+|---|---|---|
+| `GITHUB_TOKEN` | GitHub personal access token with `repo` scope | `ghp_xxxx` |
+| `GITHUB_REPOSITORY` | Owner/repo format | `owner/my-repo` |
+| `GITHUB_REF` | Git ref for the base branch | `refs/heads/main` |
+| `GITHUB_SHA` | Full commit SHA | `abc123def456789...` |
 
 ---
 

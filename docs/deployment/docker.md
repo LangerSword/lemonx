@@ -28,6 +28,11 @@ services:
       - CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY}
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      # Required for PR creation
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
+      - GITHUB_REF=${GITHUB_REF}
+      - GITHUB_SHA=${GITHUB_SHA}
     volumes:
       - .:/app
     working_dir: /app
