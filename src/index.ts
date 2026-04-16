@@ -7,6 +7,60 @@ import { promisify } from "util";
 
 const execAsync = promisify(exec);
 
+const VERBOSE = process.env.VERBOSE !== "false" && process.env.VERBOSE !== "0";
+const DEBUG = process.env.DEBUG === "true" || process.env.DEBUG === "1";
+const LOG_PREFIX = "[LEMON]";
+
+function logVerbose(...args: Parameters<typeof console.log>) {
+  if (DEBUG) {
+    const timestamp = new Date().toISOString();
+    console.log(`${LOG_PREFIX} [${timestamp}]`, ...args);
+  }
+}
+
+function logStep(step: string, details?: string) {
+  const timestamp = new Date().toISOString();
+  console.log(`${LOG_PREFIX} [${timestamp}] 📍 STEP: ${step}`);
+  if (details) {
+    console.log(`${LOG_PREFIX} [${timestamp}]    Details: ${details}`);
+  }
+}
+
+function logAgent(agentName: string, action: string, prompt: string) {
+  const timestamp = new Date().toISOString();
+  console.log(`${LOG_PREFIX} [${timestamp}] 🤖 AGENT: ${agentName} | ACTION: ${action}`);
+  console.log(`${LOG_PREFIX} [${timestamp}]    Prompt Length: ${prompt.length} chars`);
+  console.log(`${LOG_PREFIX} [${timestamp}]    Full Prompt:\n${prompt}\n${"-".repeat(80)}`);
+}
+
+function logResponse(agentName: string, response: string, truncated?: boolean) {
+  const timestamp = new Date().toISOString();
+  console.log(`${LOG_PREFIX} [${timestamp}] 📤 RESPONSE from ${agentName}:`);
+  console.log(response);
+  if (truncated) {
+    console.log(`${LOG_PREFIX} [${timestamp}]    [Response truncated - full length: ${response.length} chars]`);
+  }
+}
+
+function logTool(toolName: string, input: Record<string, unknown>) {
+  const timestamp = new Date().toISOString();
+  console.log(`${LOG_PREFIX} [${timestamp}] 🔧 TOOL CALL: ${toolName}`);
+  console.log(`${LOG_PREFIX} [${timestamp}]    Input: ${JSON.stringify(input, null, 2)}`);
+}
+
+function logTestResult(testFile: string, passed: boolean, output: string, failures?: { testName: string; error: string }[]) {
+  const timestamp = new Date().toISOString();
+  const status = passed ? "✅ PASSED" : "❌ FAILED";
+  console.log(`${LOG_PREFIX} [${timestamp}] 🧪 TEST RESULT: ${testFile} | ${status}`);
+  console.log(`${LOG_PREFIX} [${timestamp}]    Full Output:\n${output}\n${"-".repeat(80)}`);
+  if (failures && failures.length > 0) {
+    console.log(`${LOG_PREFIX} [${timestamp}]    Failures:`);
+    failures.forEach((f, i) => {
+      console.log(`${LOG_PREFIX} [${timestamp}]      [${i + 1}] ${f.testName}: ${f.error}`);
+    });
+  }
+}
+
 const TARGET_REPO = process.env.TARGET_REPO ?? process.cwd();
 const LEMON_WORKSPACE = process.env.LEMON_WORKSPACE ?? "/workspace";
 const MAX_ITERATIONS = 5;
@@ -87,13 +141,16 @@ const generatedFiles: { path: string; content: string }[] = [];
 
 // ── Unit Tests ──────────────────────────────────────────────────
 const unitFiles = await discoverFiles(TARGET_REPO);
-console.log(`\n🔍 Found ${unitFiles.length} source files for unit tests:`);
-unitFiles.forEach(f => console.log(`  - ${f}`));
+logStep("DISCOVERY", `Found ${unitFiles.length} source files for unit tests`);
+if (DEBUG) {
+  unitFiles.forEach(f => logVerbose(`  - ${f}`));
+}
 
-console.log("\n📝 Generating unit tests...");
+console.log(`\n${LOG_PREFIX} 📝 Generating unit tests...`);
 for (const file of unitFiles) {
-  console.log(`  Generating test for: ${file}`);
-  const res = await unitGenerator.generate(`
+  logStep("TEST_GENERATION", `Generating unit test for: ${file}`);
+  
+  const prompt = `
     Do the following steps in order:
     1. Call fetch-analysis with filePath="${file}" to get the stored analysis context.
     2. Call read-file with path="${file}" to read the source code.
@@ -106,20 +163,30 @@ for (const file of unitFiles) {
        - testFilePath="src/__tests__/${file.replace(/^src\//, "").replace(/\.ts$/, ".test.ts")}"
        - testCode = the full test file content
     Do all 5 steps now.
-  `);
-  console.log(`  ✓ ${res.text.slice(0, 100)}`);
+  `;
+  
+  logAgent("testGeneratorAgent", "GENERATE_UNIT_TEST", prompt);
+  
+  const res = await unitGenerator.generate(prompt);
+  
+  logResponse("testGeneratorAgent", res.text, true);
+  
+  console.log(`${LOG_PREFIX}  ✓ Test generated for: ${file}`);
 }
 
 // ── Integration Tests ───────────────────────────────────────────
 const integrationFiles = await discoverIntegrationFiles(TARGET_REPO);
-console.log(`\n🔍 Found ${integrationFiles.length} files for integration tests:`);
-integrationFiles.forEach(f => console.log(`  - ${f}`));
+logStep("DISCOVERY", `Found ${integrationFiles.length} files for integration tests`);
+if (DEBUG) {
+  integrationFiles.forEach(f => logVerbose(`  - ${f}`));
+}
 
 if (integrationFiles.length > 0) {
-  console.log("\n📝 Generating integration tests...");
+  console.log(`\n${LOG_PREFIX} 📝 Generating integration tests...`);
   for (const file of integrationFiles) {
-    console.log(`  Generating integration test for: ${file}`);
-    const res = await integrationGenerator.generate(`
+    logStep("TEST_GENERATION", `Generating integration test for: ${file}`);
+    
+    const prompt = `
       Do the following steps in order:
       1. Call fetch-analysis with filePath="${file}" to get the stored analysis context.
       2. Call read-file with path="${file}" to read the source code.
@@ -132,21 +199,31 @@ if (integrationFiles.length > 0) {
          - testFilePath="tests/integration/${file.replace(/^src\//, "").replace(/\.ts$/, ".test.ts")}"
          - testCode = the full test file content
       Do all 5 steps now.
-    `);
-    console.log(`  ✓ ${res.text.slice(0, 100)}`);
+    `;
+    
+    logAgent("integrationGeneratorAgent", "GENERATE_INTEGRATION_TEST", prompt);
+    
+    const res = await integrationGenerator.generate(prompt);
+    
+    logResponse("integrationGeneratorAgent", res.text, true);
+    
+    console.log(`${LOG_PREFIX}  ✓ Integration test generated for: ${file}`);
   }
 }
 
 // ── E2E Tests ───────────────────────────────────────────────────
 const e2eFiles = await discoverE2EFiles(TARGET_REPO);
-console.log(`\n🔍 Found ${e2eFiles.length} files for E2E tests:`);
-e2eFiles.forEach(f => console.log(`  - ${f}`));
+logStep("DISCOVERY", `Found ${e2eFiles.length} files for E2E tests`);
+if (DEBUG) {
+  e2eFiles.forEach(f => logVerbose(`  - ${f}`));
+}
 
 if (e2eFiles.length > 0) {
-  console.log("\n📝 Generating E2E tests...");
+  console.log(`\n${LOG_PREFIX} 📝 Generating E2E tests...`);
   for (const file of e2eFiles) {
-    console.log(`  Generating E2E test for: ${file}`);
-    const res = await e2eGenerator.generate(`
+    logStep("TEST_GENERATION", `Generating E2E test for: ${file}`);
+    
+    const prompt = `
       Do the following steps in order:
       1. Call fetch-analysis with filePath="${file}" to get the stored analysis context.
       2. Call read-file with path="${file}" to read the source code.
@@ -159,27 +236,38 @@ if (e2eFiles.length > 0) {
          - testFilePath="tests/e2e/${file.replace(/^src\//, "").replace(/\.ts$/, ".test.ts")}"
          - testCode = the full test file content
       Do all 5 steps now.
-    `);
-    console.log(`  ✓ ${res.text.slice(0, 100)}`);
+    `;
+    
+    logAgent("e2eGeneratorAgent", "GENERATE_E2E_TEST", prompt);
+    
+    const res = await e2eGenerator.generate(prompt);
+    
+    logResponse("e2eGeneratorAgent", res.text, true);
+    
+    console.log(`${LOG_PREFIX}  ✓ E2E test generated for: ${file}`);
   }
 }
 
 // ── Run + fix loop for all test types ───────────────────────────
 async function runTestFixLoop(testDir: string, label: string) {
-  console.log(`\n🧪 Running ${label} test-fix loop...`);
+  logStep("TEST_FIX_LOOP_START", `${label} tests | max iterations: ${MAX_ITERATIONS}`);
 
   for (let iteration = 1; iteration <= MAX_ITERATIONS; iteration++) {
-    console.log(`\n  Iteration ${iteration}: Running ${label} tests...`);
+    logStep(`ITERATION_${iteration}`, `Running ${label} tests...`);
 
     const testFiles = await discoverTestFiles(TARGET_REPO, testDir);
     if (testFiles.length === 0) {
-      console.log(`  No ${label} test files found. Skipping.`);
+      logStep("DISCOVERY", `No ${label} test files found. Skipping.`);
       return { status: "no_tests", iterations: 0, changedFiles: [] };
     }
 
+    logVerbose(`Discovered ${testFiles.length} test files:`, testFiles);
+
     let allPassed = true;
     for (const testFile of testFiles) {
-      const res = await executor.generate(`
+      console.log(`${LOG_PREFIX} 🧪 Executing: ${testFile}`);
+      
+      const prompt = `
         Do the following steps in order:
         1. Call run-tests with testFilePath="${testFile}"
         2. Call store-results with:
@@ -190,26 +278,33 @@ async function runTestFixLoop(testDir: string, label: string) {
            - failures = array of {testName, error} objects from the run-tests result
            - iteration = ${iteration}
         Do both steps now.
-      `);
-      console.log(`  ${testFile}: ${res.text.slice(0, 80)}`);
-
-      if (res.text.toLowerCase().includes("fail") || res.text.toLowerCase().includes("error")) {
+      `;
+      
+      logAgent("executorAgent", "RUN_TESTS", prompt);
+      
+      const res = await executor.generate(prompt);
+      
+      const passed = !res.text.toLowerCase().includes("fail") && !res.text.toLowerCase().includes("error");
+      logTestResult(testFile, passed, res.text);
+      
+      if (!passed) {
         allPassed = false;
       }
     }
 
     if (allPassed) {
-      console.log(`\n  ✅ All ${label} tests passed on iteration ${iteration}!`);
+      logStep("ALL_TESTS_PASSED", `All ${label} tests passed on iteration ${iteration}!`);
       return { status: "passed", iterations: iteration, changedFiles: await getChangedFiles(TARGET_REPO) };
     }
 
     if (iteration === MAX_ITERATIONS) {
-      console.log(`\n  ⚠️  Max iterations reached for ${label} tests.`);
+      logStep("MAX_ITERATIONS_REACHED", `Max iterations reached for ${label} tests.`);
       return { status: "max_iterations", iterations: iteration, changedFiles: await getChangedFiles(TARGET_REPO) };
     }
 
-    console.log(`\n  🔧 Iteration ${iteration}: Fixing ${label} failures...`);
-    const results = await editor.generate(`
+    logStep(`FIXING_ITERATION_${iteration}`, `Fixing ${label} failures...`);
+    
+    const fixPrompt = `
       Do the following steps in order:
       1. Call fetch-results with iteration=${iteration} to get failing tests.
       2. For each failing test, call read-file on the source file being tested.
@@ -217,8 +312,15 @@ async function runTestFixLoop(testDir: string, label: string) {
          - patchDescription = a short description of what you fixed
          - iteration = ${iteration}
       Do all steps now.
-    `);
-    console.log(`  Editor: ${results.text.slice(0, 150)}`);
+    `;
+    
+    logAgent("editorAgent", "APPLY_FIXES", fixPrompt);
+    
+    const results = await editor.generate(fixPrompt);
+    
+    logResponse("editorAgent", results.text, true);
+    
+    logVerbose(`Editor applied fixes for iteration ${iteration}`);
   }
 
   return { status: "completed", iterations: MAX_ITERATIONS, changedFiles: await getChangedFiles(TARGET_REPO) };

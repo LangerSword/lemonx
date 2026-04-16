@@ -26,6 +26,9 @@ services:
       - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
       - GITHUB_REF=${GITHUB_REF}
       - GITHUB_SHA=${GITHUB_SHA}
+      # Logging / Debugging (enabled by default)
+      - VERBOSE=${VERBOSE:-true}
+      - DEBUG=${DEBUG:-false}
     stop_grace_period: 5s
 
 volumes:
